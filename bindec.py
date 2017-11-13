@@ -2,16 +2,21 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name     : bindec
-# Version  : 1.0.0
+# Version  : 1.0.1
 # Author   : Gerard Bajona
 # License  : MIT
 # --------------------------------------------------
+"""This script is a tool to convert the units of data storage between the
+decimal system (SI prefixes) and the binary system (IEC prefixes)."""
 
-def main_menu():
+def selector():
+    """Show the main options menu and prompt the user to pick one."""
     print()
-    print("What do you want to do?")
-    print("  1. Convert binary to decimal")
-    print("  2. Convert decimal to binary")
+    print("Data Storage Units Converter")
+    print("----------------------------")
+    print("Options menu:")
+    print("  1. Convert from binary system (IEC) to decimal system (SI)")
+    print("  2. Convert from decimal system (SI) to binary system (IEC)")
     print("  0. Quit")
     option = validate_int()
     while option < 0 or option > 2:
@@ -20,18 +25,21 @@ def main_menu():
     return option
 
 def storage():
+    """Prompt the user to enter an amount of data storage."""
     while True:
         print()
-        amount = input("Enter the amount of storage to convert: ")
+        amount = input("Enter the amount of data storage to convert: ")
         try:
             amount = float(amount)
             break
         except ValueError:
             print()
             print("Wrong format, type numbers instead.")
+            print("(Decimals allowed: use a point as separator).")
     return amount
 
 def binary_menu():
+    """Show the binary system menu and prompt the user to pick one."""
     print()
     print("Binary system (IEC):")
     print("  1. KiB (kibibyte)")
@@ -49,6 +57,7 @@ def binary_menu():
     return option
 
 def decimal_menu():
+    """Show the decimal system menu and prompt the user to pick one."""
     print()
     print("Decimal system (SI):")
     print("  1. kB (kilobyte)")
@@ -66,6 +75,7 @@ def decimal_menu():
     return option
 
 def binary_values():
+    """Determine the equivalent power for each IEC prefix."""
     binopt = binary_menu()
     if binopt == 1:
         binval = 10
@@ -94,6 +104,7 @@ def binary_values():
     return binval, binpre
 
 def decimal_values():
+    """Determine the equivalent power for each SI prefix."""
     decopt = decimal_menu()
     if decopt == 1:
         decval = 3
@@ -122,6 +133,7 @@ def decimal_values():
     return decval, decpre
 
 def validate_int():
+    """If the user is not entering an integer, catch the error."""
     while True:
         print()
         option = input("Enter an option: ")
@@ -133,38 +145,51 @@ def validate_int():
             print("It must be an integer number.")
     return option
 
-def convertd2b(n, x, y, decpre, binpre):
-    res = n * (10**x/2**y)
+def convertd2b(amount, x_pow, y_pow, decpre, binpre):
+    """Apply the equation to get the result (decimal to binary direction)."""
+    res = amount * (10 ** x_pow / 2 ** y_pow)
     cad = str(round(res, 3))
-    d2b = str(n) + " " + decpre + " = " + cad + " " + binpre
+    d2b = str(amount) + " " + decpre + " = " + cad + " " + binpre
     return d2b
 
-def convertb2d(n, x, y, decpre, binpre):
-    res = n * (2**y/10**x)
+def convertb2d(amount, x_pow, y_pow, decpre, binpre):
+    """Apply the equation to get the result (binary to decimal direction)."""
+    res = amount * (2 ** y_pow / 10 ** x_pow)
     cad = str(round(res, 3))
-    b2d = str(n) + " " + binpre + " = " + cad + " " + decpre
+    b2d = str(amount) + " " + binpre + " = " + cad + " " + decpre
     return b2d
 
-def init():
+def user_entered(amount, first, second):
+    """Print the selected options before showing the result."""
+    sel = "You selected to convert "
+    req = str(amount) + " " + first + " to " + second
+    return sel + req
+
+def main():
+    """According to the first selected option, do the conversion in one
+    direction (binary to decimal) or in another (decimal to binary).
+    Finally, display the conversion result."""
     main_option = 1
     while main_option != 0:
-        main_option = main_menu()
+        main_option = selector()
         if main_option == 1:
             myval = storage()
             binval, binpre = binary_values()
             decval, decpre = decimal_values()
             print()
-            print("- RESULT:", \
+            print(">>", user_entered(myval, binpre, decpre))
+            print(">> Result:", \
                     convertb2d(myval, decval, binval, decpre, binpre))
         elif main_option == 2:
             myval = storage()
             decval, decpre = decimal_values()
             binval, binpre = binary_values()
             print()
-            print("- RESULT:", \
+            print(">>", user_entered(myval, decpre, binpre))
+            print(">> Result:", \
                     convertd2b(myval, decval, binval, decpre, binpre))
         else:
             print()
             print("Good bye :-)")
 
-init()
+main()
