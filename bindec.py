@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : bindec
-# Version : 1.0.2
+# Version : 1.0.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
@@ -18,8 +18,8 @@ def selector():
     print("Data Storage Units Converter")
     print("----------------------------")
     print("Options menu:")
-    print("  1. Convert from binary system (IEC) to decimal system (SI)")
-    print("  2. Convert from decimal system (SI) to binary system (IEC)")
+    print("  1. Convert from decimal system (SI) to binary system (IEC)")
+    print("  2. Convert from binary system (IEC) to decimal system (SI)")
     print("  0. Quit")
     option = validate_int()
     while option < 0 or option > 2:
@@ -82,58 +82,60 @@ def binary_values():
     binopt = binary_menu()
     if binopt == 1:
         binval = 10
-        binpre = "KiB (IEC)"
+        binpre = "KiB"
     elif binopt == 2:
         binval = 20
-        binpre = "MiB (IEC)"
+        binpre = "MiB"
     elif binopt == 3:
         binval = 30
-        binpre = "GiB (IEC)"
+        binpre = "GiB"
     elif binopt == 4:
         binval = 40
-        binpre = "TiB (IEC)"
+        binpre = "TiB"
     elif binopt == 5:
         binval = 50
-        binpre = "PiB (IEC)"
+        binpre = "PiB"
     elif binopt == 6:
         binval = 60
-        binpre = "EiB (IEC)"
+        binpre = "EiB"
     elif binopt == 7:
         binval = 70
-        binpre = "ZiB (IEC)"
+        binpre = "ZiB"
     elif binopt == 8:
         binval = 80
-        binpre = "YiB (IEC)"
-    return binval, binpre
+        binpre = "YiB"
+    system = "(IEC)"
+    return binval, binpre, system
 
 def decimal_values():
     """Determine the equivalent power for each SI prefix."""
     decopt = decimal_menu()
     if decopt == 1:
         decval = 3
-        decpre = "kB (SI)"
+        decpre = "kB"
     elif decopt == 2:
         decval = 6
-        decpre = "MB (SI)"
+        decpre = "MB"
     elif decopt == 3:
         decval = 9
-        decpre = "GB (SI)"
+        decpre = "GB"
     elif decopt == 4:
         decval = 12
-        decpre = "TB (SI)"
+        decpre = "TB"
     elif decopt == 5:
         decval = 15
-        decpre = "PB (SI)"
+        decpre = "PB"
     elif decopt == 6:
         decval = 18
-        decpre = "EB (SI)"
+        decpre = "EB"
     elif decopt == 7:
         decval = 21
-        decpre = "ZB (SI)"
+        decpre = "ZB"
     elif decopt == 8:
         decval = 24
-        decpre = "YB (SI)"
-    return decval, decpre
+        decpre = "YB"
+    system = "(SI)"
+    return decval, decpre, system
 
 def validate_int():
     """If the user is not entering an integer, catch the error."""
@@ -162,11 +164,20 @@ def convertb2d(amount, x_pow, y_pow, decpre, binpre):
     b2d = str(amount) + " " + binpre + " = " + cad + " " + decpre
     return b2d
 
-def user_entered(amount, first, second):
-    """Print the selected options before showing the result."""
-    sel = "You selected to convert "
-    req = str(amount) + " " + first + " to " + second
-    return sel + req
+def user_request(amount, pre_a, pre_b, sys_a, sys_b):
+    """Print the requested options before showing the result."""
+    requested = "You selected to convert " + str(amount) + " "
+    requested += pre_a + " " + sys_a + " to " + pre_b + " " + sys_b
+    return requested
+
+def display(entered, result):
+    """Display de selected options and the result.
+    Wait for a keypress (Enter) at the end."""
+    print()
+    print(">>", entered)
+    print(">> Result:", result)
+    print()
+    input("Press Enter to continue...")
 
 def main():
     """According to the first selected option, do the conversion in one
@@ -177,24 +188,18 @@ def main():
         main_option = selector()
         if main_option == 1:
             myval = storage()
-            binval, binpre = binary_values()
-            decval, decpre = decimal_values()
-            print()
-            print(">>", user_entered(myval, binpre, decpre))
-            print(">> Result:", \
-                    convertb2d(myval, decval, binval, decpre, binpre))
-            print()
-            input("Press Enter to continue...")
+            decval, decpre, decsys = decimal_values()
+            binval, binpre, binsys = binary_values()
+            entered = user_request(myval, decpre, binpre, decsys, binsys)
+            result = convertd2b(myval, decval, binval, decpre, binpre)
+            display(entered, result)
         elif main_option == 2:
             myval = storage()
-            decval, decpre = decimal_values()
-            binval, binpre = binary_values()
-            print()
-            print(">>", user_entered(myval, decpre, binpre))
-            print(">> Result:", \
-                    convertd2b(myval, decval, binval, decpre, binpre))
-            print()
-            input("Press Enter to continue...")
+            binval, binpre, binsys = binary_values()
+            decval, decpre, decsys = decimal_values()
+            entered = user_request(myval, binpre, decpre, binsys, decsys)
+            result = convertb2d(myval, decval, binval, decpre, binpre)
+            display(entered, result)
         else:
             print()
             print("Good bye :-)")
