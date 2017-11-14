@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
-# Name     : bindec
-# Version  : 1.0.1
-# Author   : Gerard Bajona
-# License  : MIT
+# Name    : bindec
+# Version : 1.0.2
+# License : MIT
+# Author  : Gerard Bajona
+# Created : 11/11/2017
+# Changed : 14/11/2017
+# URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to convert the units of data storage between the
 decimal system (SI prefixes) and the binary system (IEC prefixes)."""
@@ -180,6 +183,8 @@ def main():
             print(">>", user_entered(myval, binpre, decpre))
             print(">> Result:", \
                     convertb2d(myval, decval, binval, decpre, binpre))
+            print()
+            input("Press Enter to continue...")
         elif main_option == 2:
             myval = storage()
             decval, decpre = decimal_values()
@@ -188,6 +193,8 @@ def main():
             print(">>", user_entered(myval, decpre, binpre))
             print(">> Result:", \
                     convertd2b(myval, decval, binval, decpre, binpre))
+            print()
+            input("Press Enter to continue...")
         else:
             print()
             print("Good bye :-)")
