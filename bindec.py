@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : bindec
-# Version : 1.0.3
+# Version : 1.0.4
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
@@ -81,61 +81,61 @@ def binary_values():
     """Determine the equivalent power for each IEC prefix."""
     binopt = binary_menu()
     if binopt == 1:
-        binval = 10
+        binpow = 10
         binpre = "KiB"
     elif binopt == 2:
-        binval = 20
+        binpow = 20
         binpre = "MiB"
     elif binopt == 3:
-        binval = 30
+        binpow = 30
         binpre = "GiB"
     elif binopt == 4:
-        binval = 40
+        binpow = 40
         binpre = "TiB"
     elif binopt == 5:
-        binval = 50
+        binpow = 50
         binpre = "PiB"
     elif binopt == 6:
-        binval = 60
+        binpow = 60
         binpre = "EiB"
     elif binopt == 7:
-        binval = 70
+        binpow = 70
         binpre = "ZiB"
     elif binopt == 8:
-        binval = 80
+        binpow = 80
         binpre = "YiB"
     system = "(IEC)"
-    return binval, binpre, system
+    return binpow, binpre, system
 
 def decimal_values():
     """Determine the equivalent power for each SI prefix."""
     decopt = decimal_menu()
     if decopt == 1:
-        decval = 3
+        decpow = 3
         decpre = "kB"
     elif decopt == 2:
-        decval = 6
+        decpow = 6
         decpre = "MB"
     elif decopt == 3:
-        decval = 9
+        decpow = 9
         decpre = "GB"
     elif decopt == 4:
-        decval = 12
+        decpow = 12
         decpre = "TB"
     elif decopt == 5:
-        decval = 15
+        decpow = 15
         decpre = "PB"
     elif decopt == 6:
-        decval = 18
+        decpow = 18
         decpre = "EB"
     elif decopt == 7:
-        decval = 21
+        decpow = 21
         decpre = "ZB"
     elif decopt == 8:
-        decval = 24
+        decpow = 24
         decpre = "YB"
     system = "(SI)"
-    return decval, decpre, system
+    return decpow, decpre, system
 
 def validate_int():
     """If the user is not entering an integer, catch the error."""
@@ -187,18 +187,18 @@ def main():
     while main_option != 0:
         main_option = selector()
         if main_option == 1:
-            myval = storage()
-            decval, decpre, decsys = decimal_values()
-            binval, binpre, binsys = binary_values()
-            entered = user_request(myval, decpre, binpre, decsys, binsys)
-            result = convertd2b(myval, decval, binval, decpre, binpre)
+            amount = storage()
+            decpow, decpre, decsys = decimal_values()
+            binpow, binpre, binsys = binary_values()
+            entered = user_request(amount, decpre, binpre, decsys, binsys)
+            result = convertd2b(amount, decpow, binpow, decpre, binpre)
             display(entered, result)
         elif main_option == 2:
-            myval = storage()
-            binval, binpre, binsys = binary_values()
-            decval, decpre, decsys = decimal_values()
-            entered = user_request(myval, binpre, decpre, binsys, decsys)
-            result = convertb2d(myval, decval, binval, decpre, binpre)
+            amount = storage()
+            binpow, binpre, binsys = binary_values()
+            decpow, decpre, decsys = decimal_values()
+            entered = user_request(amount, binpre, decpre, binsys, decsys)
+            result = convertb2d(amount, decpow, binpow, decpre, binpre)
             display(entered, result)
         else:
             print()
