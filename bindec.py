@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : bindec
-# Version : 1.0.4
+# Version : 1.0.5
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
-# Changed : 14/11/2017
+# Changed : 15/11/2017
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to convert the units of data storage between the
@@ -204,4 +204,5 @@ def main():
             print()
             print("Good bye :-)")
 
-main()
+if __name__ == '__main__':
+    main()
