@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
-# Name    : bindec
+# Name    : bindec.py
 # Version : 1.0.5
+# Python  : 3.4
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
