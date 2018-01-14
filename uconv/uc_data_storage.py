@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
-# Name    : bindec.py
-# Version : 1.0.5
+# Name    : Data Storage Units Converter
+# Version : 1.0.6
 # Python  : 3.4
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
-# Changed : 15/11/2017
+# Changed : 14/01/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to convert the units of data storage between the

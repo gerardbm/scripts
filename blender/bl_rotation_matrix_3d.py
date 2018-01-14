@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
-# Name    : rotation-matrix-3D.py
-# Version : 1.0.2
+# Name    : Rotation Matrix 3D
+# Version : 1.0.3
 # Python  : 3.5.3
 # Blender : 2.78a
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 29/11/2017
-# Changed : 04/01/2018
+# Changed : 14/01/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """
