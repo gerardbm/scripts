@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Data Storage Units Converter
-# Version : 1.0.6
-# Python  : 3.4
+# Version : 1.0.7
+# Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
-# Changed : 14/01/2018
+# Changed : 02/05/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to convert the units of data storage between the
@@ -24,7 +24,7 @@ def selector():
     print("  0. Quit")
     option = validate_int()
     while option < 0 or option > 2:
-        print("Unknown option. Try it again.")
+        print("> Unknown option. Try it again.")
         option = validate_int()
     return option
 
@@ -37,9 +37,8 @@ def storage():
             amount = float(amount)
             break
         except ValueError:
-            print()
-            print("Wrong format, type numbers instead.")
-            print("(Decimals allowed: use a point as separator).")
+            print("> Wrong format, type numbers instead.")
+            print("> (Decimals allowed: use a point as separator).")
     return amount
 
 def binary_menu():
@@ -56,7 +55,7 @@ def binary_menu():
     print("  8. YiB (yobibyte)")
     option = validate_int()
     while option < 1 or option > 8:
-        print("Unknown option. Try it again.")
+        print("> Unknown option. Try it again.")
         option = validate_int()
     return option
 
@@ -74,7 +73,7 @@ def decimal_menu():
     print("  8. YB (yottabyte)")
     option = validate_int()
     while option < 1 or option > 8:
-        print("Unknown option. Try it again.")
+        print("> Unknown option. Try it again.")
         option = validate_int()
     return option
 
@@ -147,8 +146,7 @@ def validate_int():
             option = int(option)
             break
         except ValueError:
-            print()
-            print("It must be an integer number.")
+            print("> It must be an integer number.")
     return option
 
 def convertd2b(amount, x_pow, y_pow, decpre, binpre):
