@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Data Storage Units Converter
-# Version : 1.0.7
+# Version : 1.0.8
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
-# Changed : 02/05/2018
+# Changed : 08/05/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to convert the units of data storage between the
@@ -22,24 +22,7 @@ def selector():
     print("  1. Convert from decimal system (SI) to binary system (IEC)")
     print("  2. Convert from binary system (IEC) to decimal system (SI)")
     print("  0. Quit")
-    option = validate_int()
-    while option < 0 or option > 2:
-        print("> Unknown option. Try it again.")
-        option = validate_int()
-    return option
-
-def storage():
-    """Prompt the user to enter an amount of data storage."""
-    while True:
-        print()
-        amount = input("Enter the amount of data storage to convert: ")
-        try:
-            amount = float(amount)
-            break
-        except ValueError:
-            print("> Wrong format, type numbers instead.")
-            print("> (Decimals allowed: use a point as separator).")
-    return amount
+    return get_option(0, 2)
 
 def binary_menu():
     """Show the binary system menu and prompt the user to pick one."""
@@ -53,11 +36,7 @@ def binary_menu():
     print("  6. EiB (exbibyte)")
     print("  7. ZiB (zebibyte)")
     print("  8. YiB (yobibyte)")
-    option = validate_int()
-    while option < 1 or option > 8:
-        print("> Unknown option. Try it again.")
-        option = validate_int()
-    return option
+    return get_option(1, 8)
 
 def decimal_menu():
     """Show the decimal system menu and prompt the user to pick one."""
@@ -71,11 +50,34 @@ def decimal_menu():
     print("  6. EB (exabyte)")
     print("  7. ZB (zettabyte)")
     print("  8. YB (yottabyte)")
-    option = validate_int()
-    while option < 1 or option > 8:
-        print("> Unknown option. Try it again.")
-        option = validate_int()
-    return option
+    return get_option(1, 8)
+
+def get_option(first, last):
+    """Get and validate the option value as integer."""
+    while True:
+        try:
+            print()
+            option = int(input("Enter an option: "))
+        except ValueError:
+            print("> It must be an integer number.")
+            continue
+        else:
+            if option < first or option > last:
+                print("> Unknown option. Try it again.")
+                continue
+        return option
+
+def get_storage():
+    """Get and validate the storage value as float."""
+    while True:
+        try:
+            print()
+            amount = float(input("Enter the amount of data storage: "))
+            break
+        except ValueError:
+            print("> Wrong format, type numbers instead.")
+            print("> (Decimals allowed: use a point as separator).")
+    return amount
 
 def binary_values():
     """Determine the equivalent power for each IEC prefix."""
@@ -137,18 +139,6 @@ def decimal_values():
     system = "(SI)"
     return decpow, decpre, system
 
-def validate_int():
-    """If the user is not entering an integer, catch the error."""
-    while True:
-        print()
-        option = input("Enter an option: ")
-        try:
-            option = int(option)
-            break
-        except ValueError:
-            print("> It must be an integer number.")
-    return option
-
 def convertd2b(amount, x_pow, y_pow, decpre, binpre):
     """Apply the equation to get the result (decimal to binary direction)."""
     res = amount * (10 ** x_pow / 2 ** y_pow)
@@ -186,14 +176,14 @@ def main():
     while main_option != 0:
         main_option = selector()
         if main_option == 1:
-            amount = storage()
+            amount = get_storage()
             decpow, decpre, decsys = decimal_values()
             binpow, binpre, binsys = binary_values()
             entered = user_request(amount, decpre, binpre, decsys, binsys)
             result = convertd2b(amount, decpow, binpow, decpre, binpre)
             display(entered, result)
         elif main_option == 2:
-            amount = storage()
+            amount = get_storage()
             binpow, binpre, binsys = binary_values()
             decpow, decpre, decsys = decimal_values()
             entered = user_request(amount, binpre, decpre, binsys, decsys)
