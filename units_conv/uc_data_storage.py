@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Data Storage Units Converter
-# Version : 1.0.8
+# Version : 1.1.0
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 11/11/2017
-# Changed : 08/05/2018
+# Changed : 21/05/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to convert the units of data storage between the
@@ -21,8 +21,9 @@ def selector():
     print("Options menu:")
     print("  1. Convert from decimal system (SI) to binary system (IEC)")
     print("  2. Convert from binary system (IEC) to decimal system (SI)")
+    print("  3. Configuration")
     print("  0. Quit")
-    return get_option(0, 2)
+    return get_option(0, 3)
 
 def binary_menu():
     """Show the binary system menu and prompt the user to pick one."""
@@ -52,6 +53,14 @@ def decimal_menu():
     print("  8. YB (yottabyte)")
     return get_option(1, 8)
 
+def config_menu():
+    """Show the configuration menu."""
+    print()
+    print("Configuration:")
+    print("  1. Decimals number")
+    print("  0. Back menu")
+    return get_option(0, 1)
+
 def get_option(first, last):
     """Get and validate the option value as integer."""
     while True:
@@ -78,6 +87,17 @@ def get_storage():
             print("> Wrong format, type numbers instead.")
             print("> (Decimals allowed: use a point as separator).")
     return amount
+
+def get_decimals():
+    """Get and validate the decimals option."""
+    while True:
+        try:
+            print()
+            decimals = int(input("Enter the number of decimals: "))
+            break
+        except ValueError:
+            print("> It must be an integer number")
+    return decimals
 
 def binary_values():
     """Determine the equivalent power for each IEC prefix."""
@@ -139,17 +159,33 @@ def decimal_values():
     system = "(SI)"
     return decpow, decpre, system
 
-def convertd2b(amount, x_pow, y_pow, decpre, binpre):
-    """Apply the equation to get the result (decimal to binary direction)."""
+def convertd2b(amount, x_pow, y_pow):
+    """Apply the equation to get the result. Decimal to binary."""
     res = amount * (10 ** x_pow / 2 ** y_pow)
-    cad = str(round(res, 3))
+    return res
+
+def convertd2b_(res, decimals):
+    """Round the result."""
+    cad = str(round(res, decimals))
+    return cad
+
+def convertd2b__(amount, cad, decpre, binpre):
+    """Return the result with the equality."""
     d2b = str(amount) + " " + decpre + " = " + cad + " " + binpre
     return d2b
 
-def convertb2d(amount, x_pow, y_pow, decpre, binpre):
-    """Apply the equation to get the result (binary to decimal direction)."""
+def convertb2d(amount, x_pow, y_pow):
+    """Apply the equation to get the result. Binary to decimal."""
     res = amount * (2 ** y_pow / 10 ** x_pow)
-    cad = str(round(res, 3))
+    return res
+
+def convertb2d_(res, decimals):
+    """Round the result."""
+    cad = str(round(res, decimals))
+    return cad
+
+def convertb2d__(amount, cad, decpre, binpre):
+    """Return the result with the equality."""
     b2d = str(amount) + " " + binpre + " = " + cad + " " + decpre
     return b2d
 
@@ -173,6 +209,7 @@ def main():
     direction (binary to decimal) or in another (decimal to binary).
     Finally, display the conversion result."""
     main_option = 1
+    decimals = 2
     while main_option != 0:
         main_option = selector()
         if main_option == 1:
@@ -180,15 +217,28 @@ def main():
             decpow, decpre, decsys = decimal_values()
             binpow, binpre, binsys = binary_values()
             entered = user_request(amount, decpre, binpre, decsys, binsys)
-            result = convertd2b(amount, decpow, binpow, decpre, binpre)
-            display(entered, result)
+            res = convertd2b(amount, decpow, binpow)
+            cad = convertd2b_(res, decimals)
+            d2b = convertd2b__(amount, cad, decpre, binpre)
+            display(entered, d2b)
         elif main_option == 2:
             amount = get_storage()
             binpow, binpre, binsys = binary_values()
             decpow, decpre, decsys = decimal_values()
             entered = user_request(amount, binpre, decpre, binsys, decsys)
-            result = convertb2d(amount, decpow, binpow, decpre, binpre)
-            display(entered, result)
+            res = convertb2d(amount, decpow, binpow)
+            cad = convertb2d_(res, decimals)
+            b2d = convertb2d__(amount, cad, decpre, binpre)
+            display(entered, b2d)
+        elif main_option == 3:
+            config_option = 1
+            while config_option != 0:
+                config_option = config_menu()
+                if config_option == 1:
+                    decimals = get_decimals()
+                else:
+                    print()
+                    print("Back to main menu!")
         else:
             print()
             print("Good bye :-)")
