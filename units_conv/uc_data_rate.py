@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Data Transfer Rate Units Converter
-# Version : 1.0.0
+# Version : 1.0.1
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 19/06/2018
-# Changed : 19/06/2018
+# Changed : 27/06/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to convert the units of data transfer rate between
@@ -29,28 +29,28 @@ def binary_menu():
     """Show the binary system menu and prompt the user to pick one."""
     print()
     print("Binary system (IEC):")
-    print("  1. KiB/s (kibibyte)")
-    print("  2. MiB/s (mebibyte)")
-    print("  3. GiB/s (gibibyte)")
-    print("  4. TiB/s (tebibyte)")
-    print("  5. PiB/s (pebibyte)")
-    print("  6. EiB/s (exbibyte)")
-    print("  7. ZiB/s (zebibyte)")
-    print("  8. YiB/s (yobibyte)")
+    print("  1. Kibit/s (kibibit/s)")
+    print("  2. Mibit/s (mebibit/s)")
+    print("  3. Gibit/s (gibibit/s)")
+    print("  4. Tibit/s (tebibit/s)")
+    print("  5. Pibit/s (pebibit/s)")
+    print("  6. Eibit/s (exbibit/s)")
+    print("  7. Zibit/s (zebibit/s)")
+    print("  8. Yibit/s (yobibit/s)")
     return get_option(1, 8)
 
 def decimal_menu():
     """Show the decimal system menu and prompt the user to pick one."""
     print()
     print("Decimal system (SI):")
-    print("  1. kB/s (kilobyte)")
-    print("  2. MB/s (megabyte)")
-    print("  3. GB/s (gigabyte)")
-    print("  4. TB/s (terabyte)")
-    print("  5. PB/s (petabyte)")
-    print("  6. EB/s (exabyte)")
-    print("  7. ZB/s (zettabyte)")
-    print("  8. YB/s (yottabyte)")
+    print("  1. kbit/s (kilobit)")
+    print("  2. Mbit/s (megabit)")
+    print("  3. Gbit/s (gigabit)")
+    print("  4. Tbit/s (terabit)")
+    print("  5. Pbit/s (petabit)")
+    print("  6. Ebit/s (exabit)")
+    print("  7. Zbit/s (zettabit)")
+    print("  8. Ybit/s (yottabit)")
     return get_option(1, 8)
 
 def config_menu():
@@ -104,28 +104,28 @@ def binary_values():
     binopt = binary_menu()
     if binopt == 1:
         binpow = 10
-        binpre = "KiB/s"
+        binpre = "Kibit/s"
     elif binopt == 2:
         binpow = 20
-        binpre = "MiB/s"
+        binpre = "Mibit/s"
     elif binopt == 3:
         binpow = 30
-        binpre = "GiB/s"
+        binpre = "Gibit/s"
     elif binopt == 4:
         binpow = 40
-        binpre = "TiB/s"
+        binpre = "Tibit/s"
     elif binopt == 5:
         binpow = 50
-        binpre = "PiB/s"
+        binpre = "Pibit/s"
     elif binopt == 6:
         binpow = 60
-        binpre = "EiB/s"
+        binpre = "Eibit/s"
     elif binopt == 7:
         binpow = 70
-        binpre = "ZiB/s"
+        binpre = "Zibit/s"
     elif binopt == 8:
         binpow = 80
-        binpre = "YiB/s"
+        binpre = "Yibit/s"
     system = "(IEC)"
     return binpow, binpre, system
 
@@ -134,34 +134,34 @@ def decimal_values():
     decopt = decimal_menu()
     if decopt == 1:
         decpow = 3
-        decpre = "kB/s"
+        decpre = "kbit/s"
     elif decopt == 2:
         decpow = 6
-        decpre = "MB/s"
+        decpre = "Mbit/s"
     elif decopt == 3:
         decpow = 9
-        decpre = "GB/s"
+        decpre = "Gbit/s"
     elif decopt == 4:
         decpow = 12
-        decpre = "TB/s"
+        decpre = "Tbit/s"
     elif decopt == 5:
         decpow = 15
-        decpre = "PB/s"
+        decpre = "Pbit/s"
     elif decopt == 6:
         decpow = 18
-        decpre = "EB/s"
+        decpre = "Ebit/s"
     elif decopt == 7:
         decpow = 21
-        decpre = "ZB/s"
+        decpre = "Zbit/s"
     elif decopt == 8:
         decpow = 24
-        decpre = "YB/s"
+        decpre = "Ybit/s"
     system = "(SI)"
     return decpow, decpre, system
 
 def convertd2b(amount, x_pow, y_pow):
     """Apply the equation to get the result. Decimal to binary."""
-    res = amount * (10 ** x_pow / 2 ** y_pow) / 8
+    res = amount * (10 ** x_pow / 2 ** y_pow)
     return res
 
 def convertd2b_(res, decimals):
@@ -176,7 +176,7 @@ def convertd2b__(amount, cad, decpre, binpre):
 
 def convertb2d(amount, x_pow, y_pow):
     """Apply the equation to get the result. Binary to decimal."""
-    res = amount * (2 ** y_pow / 10 ** x_pow) / 8
+    res = amount * (2 ** y_pow / 10 ** x_pow)
     return res
 
 def convertb2d_(res, decimals):
