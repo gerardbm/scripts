@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Prime Factors Decomposition
-# Version : 1.0.0
+# Version : 1.0.1
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
@@ -79,7 +79,7 @@ def format_group(factors):
     for factor in factors:
         exponent = factors.count(factor)
         grouped.extend([(factor, exponent)])
-    grouped = set(grouped)
+    grouped = sorted(set(grouped))
     return grouped
 
 def format_join(grouped):
@@ -91,8 +91,8 @@ def format_join(grouped):
     joined = ' * '.join(map(str, joined))
     return joined
 
-def display(joined, columns, number, factors, divisor):
-    """Display the result."""
+def output(joined, columns, number, factors, divisor):
+    """Show the result."""
     lennum = int(len(str(number)) + 3)
     lendiv = int(len(str(divisor)))
     columns = ''.join(map(str, columns))
@@ -117,9 +117,9 @@ def main():
             columns, factors, divisor = decomposition(number)
             grouped = format_group(factors)
             joined = format_join(grouped)
-            display(joined, columns, number, factors, divisor)
+            output(joined, columns, number, factors, divisor)
             end = time.time()
-            print('Time requiried:')
+            print('Time required:')
             print('>>', round(end-start, 5), 'sec')
             print()
             input("Press Enter to continue...")
