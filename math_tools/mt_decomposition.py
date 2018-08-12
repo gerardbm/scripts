@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
-# Name    : Decomposition
-# Version : 0.1.0
+# Name    : Prime Factors Decomposition
+# Version : 1.0.0
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 02/06/2018
-# Changed : 10/08/2018
+# Changed : 12/08/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """This script is a tool to decompose a number into prime factors."""
+
+import time
 
 def main_menu():
     """Show the main options menu and prompt the user to pick one."""
@@ -49,48 +51,60 @@ def get_number():
             print("> (Decimals not allowed: type an integer).")
     return number
 
-def decomposition(given_num):
-    """Decompose!"""
-    print()
-    print("  ", given_num, " ")
-    print("", "-" * (len(str(given_num)) + 4))
-
-    decom_num = given_num
+def decomposition(number):
+    """Decompose the number into prime factors!"""
+    dividend = number
     divisor = 2
+    columns = []
     factors = []
-
-    while decom_num >= divisor:
-        while decom_num % divisor == 0:
-            align = abs(len(str(decom_num)) - len(str(given_num)))
+    while dividend >= divisor:
+        while dividend % divisor == 0:
+            aligned = abs(len(str(dividend)) - len(str(number)))
+            columns.extend([
+                " ",
+                " " * aligned,
+                dividend,
+                " | ",
+                divisor,
+                "\n",
+            ])
+            dividend = int(dividend / divisor)
             factors.extend([divisor])
-            print(" " * align, decom_num, "|", divisor)
-            decom_num = int(decom_num / divisor)
         divisor = divisor + 1
+    return columns, factors, divisor
 
+def format_group(factors):
+    """Formatted output: group factors and exponents."""
     grouped = []
-
     for factor in factors:
         exponent = factors.count(factor)
         grouped.extend([(factor, exponent)])
-
     grouped = set(grouped)
+    return grouped
 
-    result = []
-
+def format_join(grouped):
+    """Formatted output: join factors and exponents."""
+    joined = []
     for group in grouped:
         group = '^'.join(map(str, group))
-        result.extend([group])
+        joined.extend([group])
+    joined = ' * '.join(map(str, joined))
+    return joined
 
-    result = ' * '.join(map(str, result))
-
+def display(joined, columns, number, factors, divisor):
+    """Display the result."""
+    lennum = int(len(str(number)) + 3)
+    lendiv = int(len(str(divisor)))
+    columns = ''.join(map(str, columns))
     print()
-    print('The prime factorization is:')
-    print('>>', ' * '.join(map(str, factors)))
+    print(" " + ("-" * (lennum)) + ("-" * lendiv))
+    print(columns)
+    print('Prime decomposition:')
+    print('>>', number, '=', ' * '.join(map(str, factors)))
     print()
-    print('In exponential form:')
-    print('>>', result)
+    print('Exponential form:')
+    print('>>', number, '=', joined)
     print()
-    input("Press Enter to continue...")
 
 def main():
     """Main program."""
@@ -99,7 +113,16 @@ def main():
         main_option = main_menu()
         if main_option == 1:
             number = get_number()
-            decomposition(number)
+            start = time.time()
+            columns, factors, divisor = decomposition(number)
+            grouped = format_group(factors)
+            joined = format_join(grouped)
+            display(joined, columns, number, factors, divisor)
+            end = time.time()
+            print('Time requiried:')
+            print('>>', round(end-start, 5), 'sec')
+            print()
+            input("Press Enter to continue...")
         else:
             print()
             print("Good bye :-)")
