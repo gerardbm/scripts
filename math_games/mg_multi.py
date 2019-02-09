@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Multiplications
-# Version : 1.0.0
+# Version : 1.1.0
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 08/02/2019
-# Changed : 08/02/2019
+# Changed : 09/02/2019
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """Little multiplications game for the terminal."""
@@ -15,13 +15,14 @@
 import random
 import time
 
-def operation(score):
+def operation(score, count):
     """Do a question and check the answer."""
     numb1 = random.randint(1, 9)
     numb2 = random.randint(1, 9)
     result = numb1*numb2
     problem = str(numb1) + "x" + str(numb2)
-    question = "The result of " + problem + " = "
+    enum = str(count).zfill(2)
+    question = enum + ". The result of " + problem + " = "
 
     while True:
         print()
@@ -30,15 +31,27 @@ def operation(score):
             answer = int(answer)
             break
         except ValueError:
-            print("It must be an integer number.")
+            print("--- It must be an integer number.")
 
     if answer == result:
-        print("- Good!")
+        print("--- Good!")
         score = score + 1
     else:
-        print("- Wrong!")
+        print("--- Wrong!")
         score = score + 0
     return score
+
+def emoticons(percent):
+    """Display an emoticon face according to the result."""
+    if percent == 100:
+        emoticon = ':-)'
+    elif percent >= 50 and percent < 100:
+        emoticon = ':-|'
+    elif percent >= 20 and percent < 50:
+        emoticon = ':-('
+    else:
+        emoticon = ':_('
+    return emoticon
 
 def main():
     """Start the game and show the score at the end."""
@@ -52,16 +65,17 @@ def main():
     start = time.time()
     while count < maxim:
         count = count + 1
-        score = operation(score)
+        score = operation(score, count)
     end = time.time()
 
     rights = score
     wrongs = maxim-score
     percent = round((score/maxim)*100, 0)
+    emoticon = emoticons(percent)
 
     print()
     print("----------")
-    print("|"*int(round((score/maxim)*10, 0)), str(percent) + "%")
+    print("|"*int(round((score/maxim)*10, 0)), str(percent) + "%", emoticon)
     print("----------")
     print()
     print("> Rights:", rights)
