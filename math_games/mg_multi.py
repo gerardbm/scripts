@@ -7,7 +7,7 @@
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 08/02/2019
-# Changed : 09/02/2019
+# Changed : 10/02/2019
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """Little multiplications game for the terminal."""
@@ -45,9 +45,9 @@ def emoticons(percent):
     """Display an emoticon face according to the result."""
     if percent == 100:
         emoticon = ':-)'
-    elif percent >= 50 and percent < 100:
+    elif percent >= 50 < 100:
         emoticon = ':-|'
-    elif percent >= 20 and percent < 50:
+    elif percent >= 20 < 50:
         emoticon = ':-('
     else:
         emoticon = ':_('
@@ -87,7 +87,8 @@ def main():
 
     replay = input("Press 'q' to quit or anything else to play again. ")
     if replay.lower() == 'q':
-        return 0
+        import sys
+        sys.exit()
     else:
         main()
 
