@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Multiplications
-# Version : 1.1.0
+# Version : 1.2.0
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 08/02/2019
-# Changed : 10/02/2019
+# Changed : 18/07/2022
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """Little multiplications game for the terminal."""
@@ -34,10 +34,10 @@ def operation(score, count):
             print("--- It must be an integer number.")
 
     if answer == result:
-        print("--- Good!")
+        print('\033[32m' + "--- Good!" + '\033[0m')
         score = score + 1
     else:
-        print("--- Wrong!")
+        print('\033[31m' + "--- Wrong!" + '\033[0m')
         score = score + 0
     return score
 
@@ -52,6 +52,18 @@ def emoticons(percent):
     else:
         emoticon = ':_('
     return emoticon
+
+def colorize(percent):
+    """Colorize the result"""
+    if percent == 100:
+        color = '\033[32m'
+    elif percent >= 50 < 100:
+        color = '\033[36m'
+    elif percent >= 20 < 50:
+        color = '\033[33m'
+    else:
+        color = '\033[31m'
+    return color
 
 def main():
     """Start the game and show the score at the end."""
@@ -72,11 +84,16 @@ def main():
     wrongs = maxim-score
     percent = round((score/maxim)*100, 0)
     emoticon = emoticons(percent)
+    color = colorize(percent)
+    clean = '\033[0m'
+
+    if percent > 0:
+        bars = "█"*int(round((score/maxim)*10, 0))
+    else:
+        bars = "X"
 
     print()
-    print("----------")
-    print("|"*int(round((score/maxim)*10, 0)), str(percent) + "%", emoticon)
-    print("----------")
+    print(color + bars, str(percent) + "%", emoticon + clean)
     print()
     print("> Rights:", rights)
     print("> Wrongs:", wrongs)
