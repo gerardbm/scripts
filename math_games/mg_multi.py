@@ -14,6 +14,7 @@
 
 import random
 import time
+import sys
 
 def operation(score, count):
     """Do a question and check the answer."""
@@ -104,7 +105,6 @@ def main():
 
     replay = input("Press 'q' to quit or anything else to play again. ")
     if replay.lower() == 'q':
-        import sys
         sys.exit()
     else:
         main()
