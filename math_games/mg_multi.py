@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Multiplications
-# Version : 1.3.0
+# Version : 1.3.1
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
@@ -75,9 +75,8 @@ def savetocsv(interval):
     getnow = datetime.datetime.now()
     strnow = str(getnow.strftime("%d/%m/%Y %H:%M"))
     result = strnow + ', ' + str(round(interval, 2)) + ' sec\n'
-    file = open(filename, 'a+')
-    file.write(result)
-    file.close()
+    with open(filename, 'a+', encoding='utf8') as file_handle:
+        file_handle.write(result)
 
 def main():
     """Start the game and show the score at the end."""
