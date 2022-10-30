@@ -2,19 +2,21 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Multiplications
-# Version : 1.2.0
+# Version : 1.3.0
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 08/02/2019
-# Changed : 18/07/2022
+# Changed : 30/10/2022
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """Little multiplications game for the terminal."""
 
 import random
+import datetime
 import time
 import sys
+from pathlib import Path
 
 def operation(score, count):
     """Do a question and check the answer."""
@@ -66,6 +68,17 @@ def colorize(percent):
         color = '\033[31m'
     return color
 
+def savetocsv(interval):
+    """Save the result in a CSV file"""
+    homepath = str(Path.home())
+    filename = str(homepath + "/.multistats")
+    getnow = datetime.datetime.now()
+    strnow = str(getnow.strftime("%d/%m/%Y %H:%M"))
+    result = strnow + ', ' + str(round(interval, 2)) + ' sec\n'
+    file = open(filename, 'a+')
+    file.write(result)
+    file.close()
+
 def main():
     """Start the game and show the score at the end."""
     score = 0
@@ -87,6 +100,10 @@ def main():
     emoticon = emoticons(percent)
     color = colorize(percent)
     clean = '\033[0m'
+    interval = end-start
+
+    if rights == maxim:
+        savetocsv(interval)
 
     if percent > 0:
         bars = "█"*int(round((score/maxim)*10, 0))
@@ -99,8 +116,8 @@ def main():
     print("> Rights:", rights)
     print("> Wrongs:", wrongs)
     print()
-    print('> Time:', round(end-start, 2), 'sec')
-    print('> Rate:', round((end-start)/maxim, 2), 'sec/question')
+    print('> Time:', round(interval, 2), 'sec')
+    print('> Rate:', round((interval)/maxim, 2), 'sec/question')
     print()
 
     replay = input("Press 'q' to quit or anything else to play again. ")
