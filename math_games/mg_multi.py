@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
-# Name    : Multiplications
-# Version : 1.3.1
+# Name    : Multiplications game
+# Version : 2.0.0
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
@@ -15,13 +15,88 @@
 import random
 import datetime
 import time
-import sys
-from pathlib import Path
+import os
 
-def operation(score, count):
+def selector():
+    """Show the main options menu and prompt the user to pick one."""
+    print()
+    print("Multiplications game")
+    print("--------------------")
+    print("Options menu:")
+    print("  1. N×N digits")
+    print("  2. N×NN digits")
+    print("  3. NN×NN digits")
+    print("  0. Quit")
+    return get_option(0, 3)
+
+def get_option(first, last):
+    """Get and validate the option value as integer."""
+    while True:
+        try:
+            print()
+            option = int(input("Enter an option: "))
+        except ValueError:
+            print("> It must be an integer number.")
+            continue
+        else:
+            if option < first or option > last:
+                print("> Unknown option. Try it again.")
+                continue
+        return option
+
+def letsplay(level):
+    """Start the game and show the score at the end."""
+    score = 0
+    count = 0
+    maxim = 10
+
+    print()
+    print("Game starts. Play!")
+
+    start = time.time()
+    while count < maxim:
+        count = count + 1
+        score = operation(score, count, level)
+    end = time.time()
+
+    rights = score
+    wrongs = maxim-score
+    percent = round((score/maxim)*100, 0)
+    emoticon = emoticons(percent)
+    color = colorize(percent)
+    clean = '\033[0m'
+    interval = end-start
+
+    if rights == maxim:
+        savetocsv(interval, level)
+
+    if percent > 0:
+        bars = "█"*int(round((score/maxim)*10, 0))
+    else:
+        bars = "X"
+
+    print()
+    print(color + bars, str(percent) + "%", emoticon + clean)
+    print()
+    print("> Rights:", rights)
+    print("> Wrongs:", wrongs)
+    print()
+    print('> Time:', round(interval, 2), 'sec')
+    print('> Rate:', round((interval)/maxim, 2), 'sec/question')
+    print()
+
+def operation(score, count, level):
     """Do a question and check the answer."""
-    numb1 = random.randint(1, 9)
-    numb2 = random.randint(1, 9)
+    if level == 1:
+        numb1 = random.randint(1, 9)
+        numb2 = random.randint(1, 9)
+    elif level == 2:
+        numb1 = random.randint(1, 9)
+        numb2 = random.randint(10, 99)
+    elif level == 3:
+        numb1 = random.randint(10, 99)
+        numb2 = random.randint(10, 99)
+
     result = numb1*numb2
     problem = str(numb1) + "x" + str(numb2)
     enum = str(count).zfill(2)
@@ -68,62 +143,27 @@ def colorize(percent):
         color = '\033[31m'
     return color
 
-def savetocsv(interval):
+def savetocsv(interval, level):
     """Save the result in a CSV file"""
-    homepath = str(Path.home())
-    filename = str(homepath + "/.multistats")
-    getnow = datetime.datetime.now()
-    strnow = str(getnow.strftime("%d/%m/%Y %H:%M"))
-    result = strnow + ', ' + str(round(interval, 2)) + ' sec\n'
-    with open(filename, 'a+', encoding='utf8') as file_handle:
+    path = os.path.expanduser('~')
+    name = str(path + "/.multistats")
+    date = datetime.datetime.now()
+    now = str(date.strftime("%d/%m/%Y %H:%M"))
+    lvl = ', lvl: ' + str(level)
+    sec = ', ' + str(round(interval, 2)) + ' sec\n'
+    result = now + lvl + sec
+    with open(name, 'a+', encoding='utf8') as file_handle:
         file_handle.write(result)
 
 def main():
-    """Start the game and show the score at the end."""
-    score = 0
-    count = 0
-    maxim = 10
-
-    print()
-    print("Game starts. Play!")
-
-    start = time.time()
-    while count < maxim:
-        count = count + 1
-        score = operation(score, count)
-    end = time.time()
-
-    rights = score
-    wrongs = maxim-score
-    percent = round((score/maxim)*100, 0)
-    emoticon = emoticons(percent)
-    color = colorize(percent)
-    clean = '\033[0m'
-    interval = end-start
-
-    if rights == maxim:
-        savetocsv(interval)
-
-    if percent > 0:
-        bars = "█"*int(round((score/maxim)*10, 0))
-    else:
-        bars = "X"
-
-    print()
-    print(color + bars, str(percent) + "%", emoticon + clean)
-    print()
-    print("> Rights:", rights)
-    print("> Wrongs:", wrongs)
-    print()
-    print('> Time:', round(interval, 2), 'sec')
-    print('> Rate:', round((interval)/maxim, 2), 'sec/question')
-    print()
-
-    replay = input("Press 'q' to quit or anything else to play again. ")
-    if replay.lower() == 'q':
-        sys.exit()
-    else:
+    """Main program."""
+    option = selector()
+    if option != 0:
+        letsplay(option)
         main()
+    else:
+        print()
+        print("Good bye :-)")
 
 if __name__ == '__main__':
     main()
