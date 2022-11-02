@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Prime Factors Decomposition
-# Version : 1.0.1
+# Version : 1.0.2
 # Python  : 3.5.3
 # License : MIT
 # Author  : Gerard Bajona
@@ -10,7 +10,7 @@
 # Changed : 12/08/2018
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
-"""This script is a tool to decompose a number into prime factors."""
+"""Tool to decompose a number into prime factors."""
 
 import time
 
