@@ -7,7 +7,7 @@
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 08/02/2019
-# Changed : 30/10/2022
+# Changed : 10/04/2023
 # URL     : http://github.com/gerardbm/scripts
 # --------------------------------------------------
 """Little multiplications game for the terminal."""
@@ -109,7 +109,7 @@ def operation(score, count, level):
             answer = int(answer)
             break
         except ValueError:
-            print("--- It must be an integer number.")
+            print('\033[33m--- It must be an integer number.\033[0m')
 
     if answer == result:
         print('\033[32m' + "--- Good!" + '\033[0m')
