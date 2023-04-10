@@ -20,8 +20,8 @@ import os
 def selector():
     """Show the main options menu and prompt the user to pick one."""
     print()
-    print("Multiplications game")
-    print("--------------------")
+    print("Fractions game")
+    print("-------------------")
     print("Options menu:")
     print("  1. N/N digits")
     print("  2. NN/NN digits")
@@ -92,29 +92,37 @@ def operation(score, count, level):
         num2 = random.randint(1, 9)
         den2 = random.randint(1, 9)
     elif level == 2:
-        num1 = random.randint(1, 99)
-        den1 = random.randint(1, 99)
-        num2 = random.randint(1, 99)
-        den2 = random.randint(1, 99)
+        num1 = random.randint(10, 99)
+        den1 = random.randint(10, 99)
+        num2 = random.randint(10, 99)
+        den2 = random.randint(10, 99)
 
     ops = {'+':operator.add,
            '-':operator.sub,
-           '*':operator.mul,
-           '/':operator.truediv}
-    op = random.choice(list(ops.keys()))
-    result = round(ops.get(op)(num1/den1,num2/den2), 2)
+           '×':operator.mul,
+           '÷':operator.truediv}
+    ope = random.choice(list(ops.keys()))
+    ctr = str(count).zfill(2)
+    result = round(ops.get(ope)(num1/den1,num2/den2), 2)
+    print()
 
-    problem = str(num1) + "/" + str(den1) + " " + str(op) + " " + str(num2) + "/" + str(den2)
-    question = str(count).zfill(2) + ". The result of " + problem + " = "
+    if level == 1:
+        print("                 " + str(num1) + "     " + str(num2))
+        print(ctr + ". Solve this: --- " + str(ope) + " --- = x")
+        print("                 " + str(den1) + "     " + str(den2))
+    elif level == 2:
+        print("                 " + str(num1) + "     " + str(num2))
+        print(ctr + ". Solve this: ---- " + str(ope) + " ---- = x")
+        print("                 " + str(den1) + "     " + str(den2))
 
     while True:
         print()
-        answer = input(question)
+        answer = input("What is the solution? ")
         try:
             num3,den3 = map(float, answer.split('/'))
             break
         except ValueError:
-            print("--- It must be a fraction.")
+            print('\033[33m--- It must be a fraction: a/b.\033[0m')
 
     if result == round(num3/den3, 2):
         print('\033[32m' + "--- Good!" + '\033[0m')
