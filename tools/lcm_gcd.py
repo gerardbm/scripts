@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : LCM & GCD
 # Version : 1.0.0
-# Python  : 3.8.0
+# Python  : 3.13.5
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 17/07/2022

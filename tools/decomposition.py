@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Prime Factors Decomposition
 # Version : 1.0.2
-# Python  : 3.5.3
+# Python  : 3.13.5
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 02/06/2018

@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Fractions game
 # Version : 1.0.0
-# Python  : 3.5.3
+# Python  : 3.13.5
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 10/04/2023

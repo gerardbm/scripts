@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # --------------------------------------------------
 # Name    : Data Transfer Rate Units Converter
 # Version : 1.0.1
-# Python  : 3.5.3
+# Python  : 3.13.5
 # License : MIT
 # Author  : Gerard Bajona
 # Created : 19/06/2018
